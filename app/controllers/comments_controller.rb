@@ -21,6 +21,9 @@ class CommentsController < ApplicationController
   def edit
     respond_to do |format|
       format.html
+      format.js do
+        render template: "comments/edit"
+      end
     end
   end
 
@@ -33,6 +36,9 @@ class CommentsController < ApplicationController
       if @comment.save
         format.html { redirect_back fallback_location: root_path, notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }
+        format.js do
+          render template: "comments/create"
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -46,6 +52,9 @@ class CommentsController < ApplicationController
       if @comment.update(comment_params)
         format.html { redirect_to root_url, notice: "Comment was successfully updated." }
         format.json { render :show, status: :ok, location: @comment }
+        format.js do
+          render template: "comments/update"
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -59,6 +68,10 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
+
+      format.js do
+        render template: "comments/destroy"
+      end
     end
   end
 
